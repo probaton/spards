@@ -1,11 +1,10 @@
 <script lang="ts">
   import Card from "../components/Card.svelte";
+  import type { PageData } from './$types';
 
-  let cards: Spell[] = [
-    {"index":"acid-arrow","name":"Acid Arrow","level":2,"url":"/api/2014/spells/acid-arrow"},
-  ];
+  let { data }: { data: PageData } = $props();
 
-  let truncatedCards = $derived(cards.slice(0, 10));
+  let truncatedCards = $derived(data.spells.slice(0, 10));
 </script>
 
 <h1>Spards</h1>

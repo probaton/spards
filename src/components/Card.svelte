@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { Spell } from '../routes/+page';
+
   let { name, level }: Spell = $props();
 </script>
 
