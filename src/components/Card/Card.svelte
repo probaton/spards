@@ -9,7 +9,7 @@
   let loading = $state(true);
   let error = $state<string | undefined>();
 
-  let title = $derived(spell && `${spell.level === 0 ? 'C' : spell.level} ${spell.name}${spell.ritual ? '®' : ''}${spell.concentration ? '†' : '©'}`);
+  let title = $derived(spell && `${spell.level === 0 ? 'C' : spell.level} ${spell.name}${spell.ritual ? '®' : ''}${spell.concentration ? '©' : ''}`);
 
   $effect(() => {
     async function fetchSpells() {
@@ -32,39 +32,42 @@
 
 <div class="card">
   {#if loading}
-    <p>Loading {name}...</p>
+    <span>Loading {name}...</span>
   {:else if error}
-    <p class="error">Error: {error}</p>
+    <span class="error">Error: {error}</span>
   {:else if spell}
     <h2>{title}</h2>
-    <p><strong>Level:</strong> {spell.level}</p>
-    <p><strong>School:</strong> {spell.school.name}</p>
-    <p><strong>Casting Time:</strong> {spell.casting_time}</p>
-    <p><strong>Range:</strong> {spell.range}</p>
-    <p><strong>Components:</strong> {spell.components.join(', ')}</p>
+    <span><strong>School:</strong> {spell.school.name}</span>
+    <span><strong>Casting Time:</strong> {spell.casting_time}</span>
+    <span><strong>Range:</strong> {spell.range}</span>
+    <span><strong>Components:</strong> {spell.components.join(', ')}</span>
     {#if spell.material}
-      <p><strong>Material:</strong> {spell.material}</p>
+      <span><strong>Material:</strong> {spell.material}</span>
     {/if}
-    <p><strong>Duration:</strong> {spell.duration}</p>
-    <p><strong>Concentration:</strong> {spell.concentration ? 'Yes' : 'No'}</p>
-    <p><strong>Ritual:</strong> {spell.ritual ? 'Yes' : 'No'}</p>
+    <span><strong>Duration:</strong> {spell.duration}</span>
     <div class="description">
-      <strong>Description:</strong>
       {#each spell.desc as paragraph}
         <p>{paragraph}</p>
       {/each}
     </div>
-    <p><strong>Classes:</strong> {spell.classes.map(c => c.name).join(', ')}</p>
+    <span><strong>Classes:</strong> {spell.classes.map(c => c.name).join(', ')}</span>
   {/if}
 </div>
 
 <style>
   .card {
+    display: inline-flex;
+    flex-direction: column;
     border: 1px solid #ccc;
     padding: 1rem;
-    margin: 1rem 0;
+    width: 30%;
     border-radius: 8px;
     background: #f9f9f9;
+    aspect-ratio: 1 / 1.5;
+
+    span {
+      margin: 0.25rem 0;
+    }
   }
 
   .error {
@@ -72,11 +75,11 @@
   }
 
   .description {
-    margin: 1rem 0;
+    margin: 0.25rem 0;
   }
 
   .description p {
-    margin: 0.5rem 0;
+    margin: 0.25rem 0;
   }
 
   h2 {
