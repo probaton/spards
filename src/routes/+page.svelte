@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Card from "../components/Card.svelte";
+  import Card from "../components/Card/Card.svelte";
   import type { PageData } from './$types';
 
   let { data }: { data: PageData } = $props();
