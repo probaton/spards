@@ -1,13 +1,13 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
+import { Spards } from "../spards";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Spards" },
+    { name: "description", content: "Spardify" },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  return <main><header><Spards /></header></main>;
 }
