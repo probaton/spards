@@ -7,7 +7,6 @@
   let truncatedCards = $derived(data.spells.slice(0, 10));
 </script>
 
-<h1>Spards</h1>
 {#each truncatedCards as card}
   <Card {...card} />
 {/each}
