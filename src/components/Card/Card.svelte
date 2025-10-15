@@ -46,9 +46,10 @@
     border: 1px solid #ccc;
     padding: 1rem;
     width: 25%;
-    border-radius: 8px;
     background: #f9f9f9;
-    aspect-ratio: 1 / 1.3;
+    aspect-ratio: 1 / 1.4;
+    position: relative;
+    overflow: hidden;
 
     span {
       margin: 0.25rem 0;
