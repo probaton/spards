@@ -46,7 +46,6 @@
     border: 1px solid #ccc;
     padding: 1rem;
     width: 25%;
-    background: #f9f9f9;
     aspect-ratio: 1 / 1.4;
     position: relative;
     overflow: hidden;
