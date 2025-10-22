@@ -1,38 +1,17 @@
 <script lang="ts">
-  import type { Spell } from '../../routes/+page';
-  import type { SpellDetails } from './Card';
-  import { fetchSpellDetails } from './Card';
+  import type { SpellDetails } from '../../util/fetchSpellDetails';
   import CardContents from './CardContents.svelte';
 
-  let { index, name }: Spell = $props();
+  interface CardProps {
+    spell: SpellDetails;
+    error?: string;
+  }
 
-  let spell = $state<SpellDetails | undefined>();
-  let loading = $state(true);
-  let error = $state<string | undefined>();
-
-  $effect(() => {
-    async function fetchSpells() {
-      loading = true;
-      error = undefined;
-      const result = await fetchSpellDetails(index);
-      if (typeof result === 'string') {
-        spell = undefined;
-        error = result;
-      } else {
-        error = undefined;
-        spell = result;
-      }
-      loading = false;
-    }
-
-    fetchSpells();
-  });
+  let { spell, error }: CardProps = $props();
 </script>
 
 <div class="card">
-  {#if loading}
-    <span>Loading {name}...</span>
-  {:else if error}
+  {#if error}
     <span class="error">Error: {error}</span>
   {:else if spell}
     <CardContents {...spell} />
@@ -44,7 +23,7 @@
     display: inline-flex;
     flex-direction: column;
     border: 1px solid #ccc;
-    padding: 1rem;
+    padding: 0.8rem;
     width: 25%;
     aspect-ratio: 1 / 1.4;
     position: relative;

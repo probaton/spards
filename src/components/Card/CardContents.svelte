@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { SpellDetails } from './Card';
+  import type { SpellDetails } from '../../util/fetchSpellDetails';
   import Orbs from './Orbs.svelte';
 
   let { casting_time, classes, components, concentration, desc, duration, level, material, name, range, ritual, school }: SpellDetails = $props();
@@ -10,8 +10,8 @@
     ...components.map(c => ({ text: c })),
   ]);
   let classOrbData = $derived([...classes.map(c => ({ text: c.name.slice(0, 2) })), { text: school.name.slice(0, 3), inverted: true }]);
-  let useMiniFont = $derived(desc.reduce((wc, p) => wc + p.length, material?.length || 0) > 550);
   let isCantrip = $derived(level === 0);
+  let useMiniFont = $derived(desc.reduce((wc, p) => wc + p.length, (material?.length || 0) + casting_time.length) > 550);
 
   let formatParagraph = (text: string) => text.replace(
     /(\*\*\*(.*)\*\*\*|[Ss]trength|[Dd]exterity|[Cc]onstitution|[Ii]ntelligence|[Ww]isdom|[Cc]harisma|\d+d\d+( \+ \d+)?)/g,
@@ -23,13 +23,15 @@
 <div class="orb-container"><Orbs orbs={orbData} /></div>
 <div class="container">
   <h2 class="fancy-font">{name}</h2>
-  <span class="subtitle">
-    {casting_time} - {range} - {duration}
-    <br />
-    {#if material}
-      <p class="material">{material}</p>
+  <div class="subtitle">
+    {#if casting_time.length > 15}
+      <p>{casting_time}</p>
+      <p>{range} - {duration}</p>
+    {:else}
+      <p>{casting_time} - {range} - {duration}</p>
     {/if}
-  </span>
+    {#if material}<p>{material}</p>{/if}
+  </div>
   <div class={`description${useMiniFont ? ' mini-font' : ''}`}>
     {#each desc as paragraph}
       <p>{@html formatParagraph(paragraph)}</p>
@@ -50,11 +52,14 @@
   .subtitle {
     font-size: 0.7rem;
     color: #666;
-    margin-bottom: 0.5rem;
-  }
+    margin: 0.25rem 0 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
 
-  .material {
-    margin: 0.25rem 0 0.35rem 0;
+    p {
+      margin: 0;
+    }
   }
 
   .description {
