@@ -1,8 +1,10 @@
 <script lang="ts">
   import type { SpellDetails } from '../../util/fetchSpellDetails';
+  import { formatParagraph, getSizeClass } from './Card';
   import Orbs from './Orbs.svelte';
 
-  let {
+  let spell: SpellDetails = $props();
+  const {
     casting_time,
     classes,
     components,
@@ -16,35 +18,24 @@
     range,
     ritual,
     school
-  }: SpellDetails = $props();
+  }: SpellDetails = spell;
 
-  let orbData = [
+  const orbData = [
     ...(concentration ? [{ text: 'C', inverted: true }] : []),
     ...(ritual ? [{ text: 'R', inverted: true }] : []),
     ...components.map(c => ({ text: c })),
   ];
-  let classOrbData = [...classes.map(c => ({ text: c.name.slice(0, 2) })), { text: school.name.slice(0, 3), inverted: true }];
-  let paragraphs = [...desc, ...higher_level || []];
-  let isCantrip = level === 0;
-
-  let getFontClass = () => {
-    const totalLength = paragraphs.reduce((wc, p) => wc + p.length, (material?.length || 0) + casting_time.length);
-    if (totalLength > 950) return 'micro-font';
-    if (totalLength > 550) return 'mini-font';
-    return '';
-  };
-
-  let formatParagraph = (text: string) => text.replace(
-    /(\*\*\*(.*)\*\*\*|[Ss]trength|[Dd]exterity|[Cc]onstitution|[Ii]ntelligence|[Ww]isdom|[Cc]harisma|\d+d\d+( \+ \d+)?)/g,
-    '<strong>$1</strong>'
-  );
+  const classOrbData = [...classes.map(c => ({ text: c.name.slice(0, 2) })), { text: school.name.slice(0, 3), inverted: true }];
+  const paragraphs = [...desc, ...higher_level || []];
+  const isCantrip = level === 0;
+  const size = getSizeClass(spell);
 </script>
 
 <span class={`level fancy-font ${isCantrip ? "cantrip" : ""}`}>{isCantrip ? '∞' : level}</span>
 <div class="orb-container"><Orbs orbs={orbData} /></div>
 <div class="container">
-  <h2 class="fancy-font">{name}</h2>
-  <div class="subtitle">
+  <h2 class="fancy-font {size}-title {size}-margin">{name}</h2>
+  <div class="subtitle {size}-subtitle {size === 'nano' ? size : 'micro'}-font {size}-margin">
     {#if casting_time.length > 15}
       <p>{casting_time}</p>
       <p>{range} - {duration}</p>
@@ -53,7 +44,7 @@
     {/if}
     {#if material}<p>{material}</p>{/if}
   </div>
-  <div class={`description ${getFontClass()}`}>
+  <div class="description {size}-description {size}-font {size}-margin">
     {#each paragraphs as paragraph}<p>{@html formatParagraph(paragraph)}</p>{/each}
   </div>
 </div>
@@ -68,8 +59,18 @@
     z-index: 2;
   }
 
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .nano-title {
+    line-height: 1;
+    margin-top: -0.5rem;
+    font-size: 0.8rem;
+  }
+
   .subtitle {
-    font-size: 0.65rem;
     color: #666;
     margin: 0.25rem 0 0.5rem 0;
     display: flex;
@@ -81,6 +82,11 @@
     }
   }
 
+  .nano-subtitle {
+    margin: 0.1rem 0 0.2rem 0;
+    gap: 0.1rem;
+  }
+
   .description {
     margin: 0.25rem 0;
     font-size: 0.9rem;
@@ -88,6 +94,23 @@
     p {
       margin: 0.25rem 0;
     }
+  }
+
+  .nano-description {
+    margin: 0rem;
+  
+    > p {
+      margin: 0.1rem;
+    }
+  }
+
+  .nano-margin {
+    margin-right: -0.2rem;
+    margin-left: -0.2rem;
+  }
+
+  .mid-font {
+    font-size: 0.65rem;
   }
 
   .mini-font {
@@ -98,9 +121,8 @@
     font-size: 0.65rem;
   }
 
-  h2 {
-    margin: 0;
-    font-size: 1.5rem;
+  .nano-font {
+    font-size: 0.5rem;
   }
 
   .level {

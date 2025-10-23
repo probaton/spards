@@ -28,6 +28,7 @@
     aspect-ratio: 1 / 1.4;
     position: relative;
     overflow: hidden;
+    vertical-align: top;
 
     span {
       margin: 0.25rem 0;
