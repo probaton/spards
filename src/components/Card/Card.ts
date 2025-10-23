@@ -14,7 +14,7 @@ export function getSizeClass({ desc, higher_level, casting_time, material }: Spe
 
 export function formatParagraph(text: string): string {
   return text.replace(
-    /(\*\*\*(.*)\*\*\*|[Ss]trength|[Dd]exterity|[Cc]onstitution|[Ii]ntelligence|[Ww]isdom|[Cc]harisma|\d+d\d+( \+ \d+)?)/g,
+    /\*\*\*(.*)\*\*\*|([Ss]trength|[Dd]exterity|[Cc]onstitution|[Ii]ntelligence|[Ww]isdom|[Cc]harisma|\d+d\d+( \+ \d+)?)/g,
     '<strong>$1</strong>'
   );
 }
