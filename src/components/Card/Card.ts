@@ -4,7 +4,9 @@ type SizeClass = 'nano' | 'micro' | 'mini' | 'mid';
 
 export function getSizeClass({ desc, higher_level, casting_time, material }: SpellDetails): SizeClass {
   const paragraphs = [...desc, ...higher_level || []];
-  const totalLength = paragraphs.reduce((wc, p) => wc + p.length, (material?.length || 0) + casting_time.length);
+  const paragraphLength = paragraphs.reduce((wc, p) => wc + p.length, 0);
+  const paragraphGapLength = paragraphs.length * 30;
+  const totalLength = paragraphLength + paragraphGapLength + casting_time.length + (material ? material.length : 0);
 
   if (totalLength > 1500) return 'nano';
   if (totalLength > 950) return 'micro';
@@ -13,8 +15,12 @@ export function getSizeClass({ desc, higher_level, casting_time, material }: Spe
 }
 
 export function formatParagraph(text: string): string {
-  return text.replace(
-    /\*\*\*(.*)\*\*\*|([Ss]trength|[Dd]exterity|[Cc]onstitution|[Ii]ntelligence|[Ww]isdom|[Cc]harisma|\d+d\d+( \+ \d+)?)/g,
-    '<strong>$1</strong>'
-  );
+  return text
+    .replace(
+      /([Ss]trength|[Dd]exterity|[Cc]onstitution|[Ii]ntelligence|[Ww]isdom|[Cc]harisma|\d+d\d+( ?\+ ?\d+)?)/g,
+      '<strong>$1</strong>'
+    ).replace(
+      /\*\*\*(.*)\*\*\*/g,
+      '<strong>$1</strong>'
+    );
 }
