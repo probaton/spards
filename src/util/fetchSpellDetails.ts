@@ -1,25 +1,39 @@
 import { JSDOM } from 'jsdom';
 
-export interface SpellDetails {
+export interface SpellDetails extends Stub {
+  area_of_effect?: AreaOfEffect;
+  casting_time: string;
+  classes: Stub[];
+  components: string[];
+  concentration: boolean;
+  desc: string[];
+  damage?: Damage;
+  duration: string;
+  higher_level?: string[];
+  level: number;
+  material?: string;
+  range: string;
+  ritual: boolean;
+  school: Stub;
+  subclasses?: Stub[];
+  updated_at: string;
+}
+
+interface Stub {
   index: string;
   name: string;
-  level: number;
-  desc: string[];
-  range: string;
-  components: string[];
-  material?: string;
-  ritual: boolean;
-  duration: string;
-  concentration: boolean;
-  casting_time: string;
-  school: {
-    name: string;
-    url: string;
-  };
-  classes: Array<{
-    name: string;
-    url: string;
-  }>;
+  url: string;
+}
+
+interface AreaOfEffect {
+  type: string;
+  size: number;
+}
+
+interface Damage {
+  damage_type: Stub;
+  damage_at_slot_level: Record<string, string>;
+  damage_at_character_level: Record<string, string>;
 }
 
 export async function fetchSpellDetails(index: string): Promise<SpellDetails | string> {
@@ -58,22 +72,21 @@ function parseSpellDetailsFromWikidot(index: string, html: string): SpellDetails
   const { level, ritual, school } = parseSubheader(subheader);
   const { casting_time, range, components, material, duration, concentration } = parseStats(stats);
   return {
-    index,
-    name: getTextContent(document, '.page-title > span'),
-    level,
-    desc: descriptionParagraphsAndClassList.slice(0, -1),
-    range,
-    components,
-    material, 
-    ritual,
-    duration,
-    concentration,
     casting_time,
-    school: {
-      name: school,
-      url: '',
-    },
+    concentration,
     classes: parseClasses(descriptionParagraphsAndClassList),
+    components,
+    desc: descriptionParagraphsAndClassList.slice(0, -1),
+    duration,
+    index,
+    level,
+    material, 
+    name: getTextContent(document, '.page-title > span'),
+    range,
+    ritual,
+    school: { name: school, url: '', index: school.toLowerCase() },
+    updated_at: '',
+    url: `https://dnd5e.wikidot.com/spell:${index}`,
   };
 }
 
@@ -111,7 +124,7 @@ function parseStats(statsText: string): { casting_time: string; range: string; c
   };
 }
 
-function parseClasses(texts: string[]): { name: string; url: string }[] {
+function parseClasses(texts: string[]): Stub[] {
   const classStrings = texts[texts.length - 1].split(', ').map(s => s.trim());
-  return classStrings.map(name => ({ name, url: '' }));
+  return classStrings.map(name => ({ name, url: '', index: name.toLowerCase() }));
 }
