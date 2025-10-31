@@ -15,7 +15,7 @@
   .orb {
     display: flex;
     border-radius: 50%;
-    width: 1rem;
+    min-width: 1rem;
     height: 1rem;
     font-weight: 600;
     font-size: 0.6rem;

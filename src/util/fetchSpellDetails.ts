@@ -1,4 +1,6 @@
 import { JSDOM } from 'jsdom';
+import type { Stub } from './sreTypes';
+import { capitalizeFirstLetter } from './formatting';
 
 export interface SpellDetails extends Stub {
   area_of_effect?: AreaOfEffect;
@@ -17,12 +19,6 @@ export interface SpellDetails extends Stub {
   school: Stub;
   subclasses?: Stub[];
   updated_at: string;
-}
-
-interface Stub {
-  index: string;
-  name: string;
-  url: string;
 }
 
 interface AreaOfEffect {
@@ -94,10 +90,6 @@ function getTextContent(parentNode: Document | Element, selector: string): strin
   const text = parentNode.querySelector(selector)?.textContent?.trim();
   if (!text) throw new Error(`Failed to find text content for selector: ${selector}`);
   return text;
-}
-
-function capitalizeFirstLetter(txt: string): string {
-  return `${txt[0].toUpperCase()}${txt.slice(1)}`;
 }
 
 function parseSubheader(subheaderText: string): { level: number; ritual: boolean; school: string } {

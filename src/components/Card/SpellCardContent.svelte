@@ -1,9 +1,14 @@
 <script lang="ts">
   import type { SpellDetails } from '../../util/fetchSpellDetails';
-  import { formatParagraph, getSizeClass } from './Card';
+  import { formatParagraph, type SizeClass } from './Card';
   import Orbs from './Orbs.svelte';
 
-  let spell: SpellDetails = $props();
+  interface SpellCardContentProps {
+    spell: SpellDetails;
+    size: SizeClass;
+  }
+
+  let { spell, size }: SpellCardContentProps = $props();
   const {
     casting_time,
     classes,
@@ -14,7 +19,6 @@
     higher_level,
     level,
     material,
-    name,
     range,
     ritual,
     school
@@ -28,13 +32,10 @@
   const classOrbData = [...classes.map(c => ({ text: c.name.slice(0, 2) })), { text: school.name.slice(0, 3), inverted: true }];
   const paragraphs = [...desc, ...higher_level || []];
   const isCantrip = level === 0;
-  const size = getSizeClass(spell);
 </script>
 
-<span class={`level fancy-font ${isCantrip ? "cantrip" : ""}`}>{isCantrip ? '∞' : level}</span>
+<span class={`backdrop fancy-font ${isCantrip ? "cantrip" : ""}`}>{isCantrip ? '∞' : level}</span>
 <div class="orb-container"><Orbs orbs={orbData} /></div>
-<div class="container">
-  <h2 class="fancy-font {size}-title {size}-margin">{name}</h2>
   <div class="subtitle {size}-subtitle {size === 'nano' ? size : 'micro'}-font {size}-margin">
     {#if casting_time.length > 15}
       <p>{casting_time}</p>
@@ -47,27 +48,11 @@
   <div class="description {size}-description {size}-font {size}-margin">
     {#each paragraphs as paragraph}<p>{@html formatParagraph(paragraph)}</p>{/each}
   </div>
-</div>
 <div class="class-orb-container"><Orbs orbs={classOrbData} /></div>
 
 <style>
   .fancy-font {
     font-family: 'Sedan SC', sans-serif;
-  }
-
-  .container {
-    z-index: 2;
-  }
-
-  h2 {
-    margin: 0;
-    font-size: 1.5rem;
-  }
-
-  .nano-title {
-    line-height: 1;
-    margin-top: -0.5rem;
-    font-size: 0.8rem;
   }
 
   .subtitle {
@@ -97,16 +82,9 @@
   }
 
   .nano-description {
-    margin: 0rem;
-  
     > p {
       margin: 0.1rem;
     }
-  }
-
-  .nano-margin {
-    margin-right: -0.2rem;
-    margin-left: -0.2rem;
   }
 
   .mid-font {
@@ -125,7 +103,7 @@
     font-size: 0.5rem;
   }
 
-  .level {
+  .backdrop {
     position: absolute;
     top: 0;
     right: 2.5rem;
@@ -133,7 +111,7 @@
     font-size: 13rem;
     font-weight: 600;
     color: #e4e0df;
-    z-index: 1;
+    z-index: -1;
     display: flex;
     align-items: center;
     justify-content: right;

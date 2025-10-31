@@ -1,24 +1,50 @@
 <script lang="ts">
-  import type { SpellDetails } from '../../util/fetchSpellDetails';
-  import CardContents from './CardContents.svelte';
+  import type { Snippet } from 'svelte';
+  import type { SizeClass } from './Card';
 
   interface CardProps {
-    spell: SpellDetails;
+    children: Snippet;
+    size: SizeClass;
+    title: string;
     error?: string;
   }
 
-  let { spell, error }: CardProps = $props();
+  let { children, error, size, title }: CardProps = $props();
 </script>
 
 <div class="card">
   {#if error}
     <span class="error">Error: {error}</span>
-  {:else if spell}
-    <CardContents {...spell} />
+  {:else}
+    <div class={`${size}-container`}>
+      <h2 class="fancy-font {size}-title">{title}</h2>
+      {@render children()}
+    </div>
   {/if}
 </div>
 
 <style>
+  .fancy-font {
+    font-family: 'Sedan SC', sans-serif;
+  }
+
+  .nano-container {
+    margin: 0rem;
+    margin-right: -0.2rem;
+    margin-left: -0.2rem;
+  }
+
+  h2 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  .nano-title {
+    line-height: 1;
+    margin-top: -0.5rem;
+    font-size: 0.8rem;
+  }
+
   .card {
     display: inline-flex;
     flex-direction: column;
