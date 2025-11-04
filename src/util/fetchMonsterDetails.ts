@@ -122,6 +122,6 @@ export async function fetchMonsterDetails(index: string): Promise<MonsterDetails
     
     return response.json();
   } catch (e) {
-    return `Unknown error occurred${e instanceof Error && e.message ? `: ${e.message}` : ''}`;
+    return `Unknown error occurred fetching monster ${index}: ${e instanceof Error && e.message ? `: ${e.message}` : ''}`;
   }
 }

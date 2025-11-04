@@ -6,21 +6,16 @@
     children: Snippet;
     size: SizeClass;
     title: string;
-    error?: string;
   }
 
-  let { children, error, size, title }: CardProps = $props();
+  let { children, size, title }: CardProps = $props();
 </script>
 
 <div class="card">
-  {#if error}
-    <span class="error">Error: {error}</span>
-  {:else}
-    <div class={`${size}-container`}>
-      <h2 class="fancy-font {size}-title">{title}</h2>
-      {@render children()}
-    </div>
-  {/if}
+  <div class={`${size}-container`}>
+    <h2 class="fancy-font {size}-title">{title}</h2>
+    {@render children()}
+  </div>
 </div>
 
 <style>
@@ -55,10 +50,6 @@
     position: relative;
     overflow: hidden;
     vertical-align: top;
-
-    span {
-      margin: 0.25rem 0;
-    }
   }
 
   .error {

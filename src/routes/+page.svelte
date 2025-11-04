@@ -23,12 +23,17 @@
     </Card>
   {/each}
   {#each data.errors as error}
-    <Card title='Error' size='mid'><span>{error}</span></Card>
+    <Card title='Error' size='mid'><p class="error">{error}</p></Card>
   {/each}
 </div>
 
 <style>
   .page-container {
     font-size: 0;
+  }
+
+  .error {
+    font-size: 1rem;
+    color: red;
   }
 </style>
