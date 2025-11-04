@@ -20,14 +20,18 @@ export async function fileExists(filePath: string): Promise<boolean> {
 }
 
 async function readConfFilePath(filePath: string): Promise<string[]> {
-  return (await fs.readFile(filePath, 'utf-8')).split('\n').filter(l => !l.startsWith('//') && l.trim() !== '');
+  return (await fs.readFile(filePath, 'utf-8'))
+    .split('\n')
+    .map(l => l.trim())
+    .filter(l => l && !l.startsWith('//') && !l.startsWith('#'))
+    .map(l => l.replace(/^(.*)((\/\/|#).*)$/, '$1').trim());
 }
 
 export async function readConfFile(fileName: string): Promise<string[]> {
   const confDir = `${await getRootDirectory(import.meta.url)}/conf`;
-  const fullPath = `${confDir}/${fileName}.conf`;
-
-  return await fileExists(fullPath)
-    ? readConfFilePath(fullPath)
-    : readConfFilePath(`${confDir}/example.${fileName}.conf`);
+  const userConfFilePath = `${confDir}/${fileName}.conf`;
+  const filePath = await fileExists(userConfFilePath)
+    ? userConfFilePath
+    : `${confDir}/example.${fileName}.conf`;
+  return readConfFilePath(filePath);
 }
