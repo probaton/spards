@@ -1,3 +1,8 @@
+# Conf files
+/conf/spells.conf
+/conf/monsters.conf
+
+# Dependencies
 node_modules
 
 # Output
