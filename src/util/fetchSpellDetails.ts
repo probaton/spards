@@ -34,6 +34,10 @@ interface Damage {
 
 export async function fetchSpellDetails(index: string): Promise<SpellDetails | string> {
   try {
+    if (index.startsWith('w ')) {
+      return fetchSpellDetailsFromWikidot(index.slice(2));
+    }
+
     const response = await fetch(`https://www.dnd5eapi.co/api/spells/${index}`);
     if (response.ok) {
       return response.json();
@@ -43,19 +47,23 @@ export async function fetchSpellDetails(index: string): Promise<SpellDetails | s
       return `Unknown error occurred fetching spell ${index} from SRE: ${response.statusText}`;
     }
 
-    const wikidotResponse = await fetch(`https://dnd5e.wikidot.com/spell:${index}`);
-    if (wikidotResponse.ok) {
-      return parseSpellDetailsFromWikidot(index, await wikidotResponse.text());
-    }
-
-    if (wikidotResponse.status === 404) {
-      return `Failed to find spell ${index} on Wikidot: ${wikidotResponse.statusText}`;
-    }
-    
-    return `Failed to fetch spell ${index} from Wikidot: ${wikidotResponse.statusText}`;
+    return fetchSpellDetailsFromWikidot(index);
   } catch (e) {
     return `Unknown error occurred fetching spell ${index}: ${e instanceof Error && e.message ? `: ${e.message}` : ''}`;
   }
+}
+
+async function fetchSpellDetailsFromWikidot(index: string): Promise<SpellDetails | string> {
+  const wikidotResponse = await fetch(`https://dnd5e.wikidot.com/spell:${index}`);
+  if (wikidotResponse.ok) {
+    return parseSpellDetailsFromWikidot(index, await wikidotResponse.text());
+  }
+
+  if (wikidotResponse.status === 404) {
+    return `Failed to find spell ${index} on Wikidot: ${wikidotResponse.statusText}`;
+  }
+  
+  return `Failed to fetch spell ${index} from Wikidot: ${wikidotResponse.statusText}`;
 }
 
 function parseSpellDetailsFromWikidot(index: string, html: string): SpellDetails {
