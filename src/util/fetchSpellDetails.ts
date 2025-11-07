@@ -72,17 +72,20 @@ function parseSpellDetailsFromWikidot(index: string, html: string): SpellDetails
     _source,
     subheader,
     stats,
-    ...descriptionParagraphsAndClassList
+    ...paragraphsWithTitles
   ] = [...document.querySelectorAll('#page-content > p')].map(e => e.textContent)
+
+  const paragraphs = paragraphsWithTitles
+    .map(p => p.replace(/^(Spell [Ll]ist|At [Hh]igher [Ll]evel)s?[:.]?\s*/g, '').trim());
 
   const { level, ritual, school } = parseSubheader(subheader);
   const { casting_time, range, components, material, duration, concentration } = parseStats(stats);
   return {
     casting_time,
     concentration,
-    classes: parseClasses(descriptionParagraphsAndClassList),
+    classes: parseClasses(paragraphs),
     components,
-    desc: descriptionParagraphsAndClassList.slice(0, -1),
+    desc: paragraphs.slice(0, -1),
     duration,
     index,
     level,
