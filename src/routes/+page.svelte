@@ -3,7 +3,7 @@
   import SpellCardContent from "../components/Card/SpellCardContent.svelte";
   import MonsterCardContent from "../components/Card/MonsterCardContent.svelte";
   import type { PageData } from './$types';
-  import { getSizeClass } from "../components/Card/Card";
+  import { getSizeClass, getSpellSizeClass } from "../components/Card/Card";
   import ItemCardContent from "../components/Card/ItemCardContent.svelte";
 
   let { data }: { data: PageData } = $props();
@@ -13,7 +13,7 @@
 
 <div class="page-container">
   {#each data.spells as spell}
-    {@const size = getSizeClass(spell)}
+    {@const size = getSpellSizeClass(spell)}
     <Card title={spell.name} size={size}>
       <SpellCardContent spell={spell} size={size} />
     </Card>
@@ -24,8 +24,9 @@
     </Card>
   {/each}
   {#each data.items as item}
-    <Card title={item.name} size='mid'>
-      <ItemCardContent item={item} size='mid' />
+    {@const size = getSizeClass(item.desc)}
+    <Card title={item.name} size={size}>
+      <ItemCardContent item={item} size={size} />
     </Card>
   {/each}
   {#each data.errors as error}

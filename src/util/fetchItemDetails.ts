@@ -57,7 +57,7 @@ function parseItemDetailsFromWikidot(index: string, html: string): ItemDetails {
   ] = [...document.querySelectorAll('#page-content > p')].map(e => e.textContent);
 
   return {
-    desc: paragraphs.slice(0, -1),
+    desc: paragraphs,
     rarity: parseRarity(paragraphs[0] || ''),
     index,
     equipment_category: { name: 'Wondrous Items', index: 'wondrous-item', url: `https://dnd5e.wikidot.com/wondrous-items:${index}` },

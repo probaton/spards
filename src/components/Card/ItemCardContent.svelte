@@ -16,7 +16,7 @@
 
   const subtitleText = desc[0];
   const paragraphs = desc.slice(1);
-  const rarityOrbs = [{ text: rarity.name.replace(/(\w)\w+/g, '$1').toUpperCase(), inverted: true }];
+  const rarityOrbs = [{ text: rarity.name.match(/([a-zA-Z])[a-zA-Z]+/g)?.map(s => s[0]).join('').toUpperCase() || '', inverted: true }];
 </script>
 
 <div class="subtitle {size}-subtitle {size === 'nano' ? size : 'micro'}-font">{subtitleText}</div>
