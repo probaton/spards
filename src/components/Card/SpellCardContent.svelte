@@ -36,18 +36,18 @@
 
 <span class={`backdrop fancy-font ${isCantrip ? "cantrip" : ""}`}>{isCantrip ? '∞' : level}</span>
 <div class="orb-container"><Orbs orbs={orbData} /></div>
-  <div class="subtitle {size}-subtitle {size === 'nano' ? size : 'micro'}-font {size}-margin">
-    {#if casting_time.length > 15}
-      <p>{casting_time}</p>
-      <p>{range} - {duration}</p>
-    {:else}
-      <p>{casting_time} - {range} - {duration}</p>
-    {/if}
-    {#if material}<p>{material}</p>{/if}
-  </div>
-  <div class="description {size}-description {size}-font {size}-margin">
-    {#each paragraphs as paragraph}<p>{@html formatParagraph(paragraph)}</p>{/each}
-  </div>
+<div class="subtitle {size}-subtitle {size === 'nano' ? size : 'micro'}-font">
+  {#if casting_time.length > 15}
+    <p>{casting_time}</p>
+    <p>{range} - {duration}</p>
+  {:else}
+    <p>{casting_time} - {range} - {duration}</p>
+  {/if}
+  {#if material}<p>{material}</p>{/if}
+</div>
+<div class="description {size}-description {size}-font">
+  {#each paragraphs as paragraph}<p>{@html formatParagraph(paragraph)}</p>{/each}
+</div>
 <div class="class-orb-container"><Orbs orbs={classOrbData} /></div>
 
 <style>

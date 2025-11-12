@@ -4,6 +4,7 @@
   import MonsterCardContent from "../components/Card/MonsterCardContent.svelte";
   import type { PageData } from './$types';
   import { getSizeClass } from "../components/Card/Card";
+  import ItemCardContent from "../components/Card/ItemCardContent.svelte";
 
   let { data }: { data: PageData } = $props();
 
@@ -20,6 +21,11 @@
   {#each data.monsters as monster}
     <Card title={monster.name} size='mid'>
       <MonsterCardContent monster={monster} />
+    </Card>
+  {/each}
+  {#each data.items as item}
+    <Card title={item.name} size='mid'>
+      <ItemCardContent item={item} size='mid' />
     </Card>
   {/each}
   {#each data.errors as error}

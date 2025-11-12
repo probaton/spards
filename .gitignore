@@ -1,6 +1,7 @@
 # Conf files
 /conf/spells.conf
 /conf/monsters.conf
+/conf/items.conf
 
 # Dependencies
 node_modules

@@ -1,3 +1,4 @@
+import { fetchItemDetails } from '../util/fetchItemDetails';
 import { fetchMonsterDetails } from '../util/fetchMonsterDetails';
 import { fetchSpellDetails } from '../util/fetchSpellDetails';
 import { readConfFile } from '../util/readConfFile';
@@ -27,12 +28,14 @@ import type { PageServerLoad } from './$types';
 export const load: PageServerLoad = async () => {
 	const spellRequests = (await readConfFile('spells')).map(index => fetchSpellDetails(index));
 	const monsterRequests = (await readConfFile('monsters')).map(index => fetchMonsterDetails(index));
+	const itemRequests = (await readConfFile('items')).map(index => fetchItemDetails(index));
 
-  const [spells, monsters] = await Promise.all([Promise.all(spellRequests), Promise.all(monsterRequests)]);
+  const [spells, monsters, items] = await Promise.all([Promise.all(spellRequests), Promise.all(monsterRequests), Promise.all(itemRequests)]);
 
 	return {
 		spells: spells.filter(s => typeof s !== 'string'),
 		monsters: monsters.filter(m => typeof m !== 'string'),
-		errors: [...spells, ...monsters].filter(result => typeof result === 'string'),
+		items: items.filter(i => typeof i !== 'string'),
+		errors: [...spells, ...monsters, ...items].filter(result => typeof result === 'string'),
 	};
 };
