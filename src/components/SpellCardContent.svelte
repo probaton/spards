@@ -4,6 +4,7 @@
   import { formatParagraph } from '../util/formatting';
   import Orbs from './Orbs.svelte';
   import SubTitle from './SubTitle.svelte';
+  import Backdrop from './Backdrop.svelte';
 
   interface SpellCardContentProps {
     spell: SpellDetails;
@@ -36,7 +37,7 @@
   const isCantrip = level === 0;
 </script>
 
-<span class={`backdrop fancy-font ${isCantrip ? "cantrip" : ""}`}>{isCantrip ? '∞' : level}</span>
+<Backdrop --bd-mr={isCantrip ? "-2.0rem" : "auto"}>{isCantrip ? '∞' : level}</Backdrop>
 <div class="orb-container"><Orbs orbs={orbData} /></div>
 <SubTitle {size}>
   {#if casting_time.length > 15}
@@ -65,24 +66,6 @@
     > p {
       margin: 0.1rem;
     }
-  }
-
-  .backdrop {
-    position: absolute;
-    top: 0;
-    right: 2.5rem;
-    margin-top: -3.5rem;
-    font-size: 13rem;
-    font-weight: 600;
-    color: #e4e0df;
-    z-index: -1;
-    display: flex;
-    align-items: center;
-    justify-content: right;
-  }
-
-  .cantrip {
-    margin-right: -2.0rem;
   }
 
   .orb-container {

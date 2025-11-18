@@ -1,14 +1,17 @@
 <script lang="ts">
   import type { MonsterDetails } from '../util/fetchMonsterDetails';
   import { formatParagraph } from '../util/formatting';
+  import type { SizeClass } from '../util/getSizeClass';
+  import Backdrop from './Backdrop.svelte';
   import Orbs from './Orbs.svelte';
   import SubTitle from './SubTitle.svelte';
 
   interface MonsterCardContentProps {
     monster: MonsterDetails;
+    size: SizeClass;
   }
 
-  let { monster }: MonsterCardContentProps = $props();
+  let { monster, size }: MonsterCardContentProps = $props();
   const {
     actions,
     alignment,
@@ -31,11 +34,13 @@
     wisdom,
     type,
     senses,
-    size,
+    size: monsterSize,
     special_abilities,
     speed,
     strength,
   }: MonsterDetails = monster;
+
+  const hasLongCrText = challenge_rating.toString().length > 1;
 
   const speedText = Object.entries(speed).map(([key, value]) => `${value}${key === 'walk' ? '' : ` ${key}`}`).join('/');
   const sensesText = Object.entries(senses).map(([key, value]) => `${value} ${key.replace(/_/g, ' ')}`).join(', ');
@@ -54,14 +59,16 @@
   const alignmentOrbs = [{ text: alignment.replace(/(\w)\w+/g, '$1').toUpperCase(), inverted: true }];
 </script>
 
-<span class="backdrop fancy-font">{challenge_rating}</span>
+<Backdrop --bd-r={hasLongCrText ? "0.5rem" : "2.5rem"} --bd-fs={hasLongCrText ? "7rem" : "13rem"} --bd-mt={hasLongCrText ? "-0.5rem" : "-3.5rem"}>
+  {challenge_rating}
+</Backdrop>
 
 <SubTitle size="mid">
-  <p>{size} {type} - {armorClassText} - {hit_points}/{hit_dice} - {speedText}</p>
+  <p>{monsterSize} {type} - {armorClassText} - {hit_points}/{hit_dice} - {speedText}</p>
   <p>{sensesText}</p>
 </SubTitle>
 <div class="orb-container"><Orbs orbs={statOrbs} /></div>
-<div class="description">
+<div class="description {size}-description {size}-font">
   {#each paragraphs as paragraph}<p>{@html paragraph}</p>{/each}
   {#if immunities.length > 0}<p>{@html formatParagraph(immunities.join(', '), 'Immunities')}</p>{/if}
   {#if damage_resistances.length > 0}<p>{@html formatParagraph(damage_resistances.join(', '), 'Resistances')}</p>{/if}
@@ -76,20 +83,6 @@
     right: 0.2rem;
     top: 0.2rem;
     font-size: 0.6rem;
-  }
-
-  .backdrop {
-    position: absolute;
-    top: 0;
-    right: 0.5rem;
-    margin-top: -0.5rem;
-    font-size: 7rem;
-    font-weight: 600;
-    color: #e4e0df;
-    z-index: -1;
-    display: flex;
-    align-items: center;
-    justify-content: right;
   }
 
   .description {

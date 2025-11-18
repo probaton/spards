@@ -20,7 +20,7 @@
   {/each}
   {#each data.monsters as monster}
     <Card title={monster.name} size='mid'>
-      <MonsterCardContent monster={monster} />
+      <MonsterCardContent monster={monster} size='mid' />
     </Card>
   {/each}
   {#each data.items as item}
