@@ -63,11 +63,11 @@
   {challenge_rating}
 </Backdrop>
 
-<SubTitle size="mid">
+<SubTitle size={size}>
   <p>{monsterSize} {type} - {armorClassText} - {hit_points}/{hit_dice} - {speedText}</p>
   <p>{sensesText}</p>
 </SubTitle>
-<div class="orb-container"><Orbs orbs={statOrbs} /></div>
+<Orbs orbs={statOrbs} />
 <div class="description {size}-description {size}-font">
   {#each paragraphs as paragraph}<p>{@html paragraph}</p>{/each}
   {#if immunities.length > 0}<p>{@html formatParagraph(immunities.join(', '), 'Immunities')}</p>{/if}
@@ -75,10 +75,12 @@
   {#if damage_vulnerabilities.length > 0}<p>{@html formatParagraph(damage_vulnerabilities.join(', '), 'Vulnerabilities')}</p>{/if}
   {#if languages.length > 0}<p>{@html formatParagraph(languages, 'Languages')}</p>{/if}
 </div>
-<div class="alignment-orb-container"><Orbs orbs={alignmentOrbs} /></div>
+<Orbs orbs={alignmentOrbs} position="bottom-right" />
 
 <style>
   .orb-container {
+    display: flex;
+    flex-direction: column;
     position: absolute;
     right: 0.2rem;
     top: 0.2rem;
@@ -91,13 +93,5 @@
     p {
       margin: 0.25rem 0;
     }
-  }
-
-  .alignment-orb-container {
-    display: flex;
-    position: absolute;
-    right: 0.2rem;
-    bottom: 0.2rem;
-    font-size: 0.6rem;
   }
 </style>

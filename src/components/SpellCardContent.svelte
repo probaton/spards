@@ -38,7 +38,7 @@
 </script>
 
 <Backdrop --bd-mr={isCantrip ? "-2.0rem" : "auto"}>{isCantrip ? '∞' : level}</Backdrop>
-<div class="orb-container"><Orbs orbs={orbData} /></div>
+<Orbs orbs={orbData} />
 <SubTitle {size}>
   {#if casting_time.length > 15}
     <p>{casting_time}</p>
@@ -51,7 +51,7 @@
 <div class="description {size}-description {size}-font">
   {#each paragraphs as paragraph}<p>{@html formatParagraph(paragraph)}</p>{/each}
 </div>
-<div class="class-orb-container"><Orbs orbs={classOrbData} /></div>
+<Orbs orbs={classOrbData} position="bottom-right" />
 
 <style>
   .description {
@@ -66,20 +66,5 @@
     > p {
       margin: 0.1rem;
     }
-  }
-
-  .orb-container {
-    position: absolute;
-    right: 0.2rem;
-    top: 0.2rem;
-    font-size: 0.6rem;
-  }
-
-  .class-orb-container {
-    display: flex;
-    position: absolute;
-    right: 0.2rem;
-    bottom: 0.2rem;
-    font-size: 0.6rem;
   }
 </style>

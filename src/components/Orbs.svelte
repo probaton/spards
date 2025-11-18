@@ -1,17 +1,44 @@
 <script lang="ts">
+  export type Position = 'top-right' | 'bottom-right';
+
   export interface OrbData {
     text: string;
     inverted?: boolean;
   }
 
-  let { orbs }: { orbs: OrbData[] } = $props();
+  interface OrbsProps {
+    orbs: OrbData[];
+    position?: Position;
+  }
+
+  let { orbs, position = 'top-right' }: OrbsProps = $props();
 </script>
 
-{#each orbs as { text, inverted }}
-  <div class={`orb ${inverted ? 'inverted' : 'verted'}`}>{text}</div>
-{/each}
+<div class={`orb-container orb-position-${position}`}>
+  {#each orbs as { text, inverted }}
+    <div class={`orb ${inverted ? 'inverted' : 'verted'}`}>{text}</div>
+  {/each}
+</div>
 
 <style>
+  .orb-container {
+    display: flex;
+    position: absolute;
+    font-size: 0.6rem;
+    z-index: -1;
+  }
+
+  .orb-position-top-right {
+    flex-direction: column;
+    right: 0.2rem;
+    top: 0.2rem;
+  }
+
+  .orb-position-bottom-right {
+    right: 0.2rem;
+    bottom: 0.2rem;
+  }
+
   .orb {
     display: flex;
     border-radius: 50%;
