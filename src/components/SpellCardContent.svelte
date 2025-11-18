@@ -3,6 +3,7 @@
   import type { SizeClass } from '../util/getSizeClass';
   import { formatParagraph } from '../util/formatting';
   import Orbs from './Orbs.svelte';
+  import SubTitle from './SubTitle.svelte';
 
   interface SpellCardContentProps {
     spell: SpellDetails;
@@ -37,7 +38,7 @@
 
 <span class={`backdrop fancy-font ${isCantrip ? "cantrip" : ""}`}>{isCantrip ? '∞' : level}</span>
 <div class="orb-container"><Orbs orbs={orbData} /></div>
-<div class="subtitle {size}-subtitle {size === 'nano' ? size : 'micro'}-font">
+<SubTitle {size}>
   {#if casting_time.length > 15}
     <p>{casting_time}</p>
     <p>{range} - {duration}</p>
@@ -45,37 +46,15 @@
     <p>{casting_time} - {range} - {duration}</p>
   {/if}
   {#if material}<p>{material}</p>{/if}
-</div>
+</SubTitle>
 <div class="description {size}-description {size}-font">
   {#each paragraphs as paragraph}<p>{@html formatParagraph(paragraph)}</p>{/each}
 </div>
 <div class="class-orb-container"><Orbs orbs={classOrbData} /></div>
 
 <style>
-  .fancy-font {
-    font-family: 'Sedan SC', sans-serif;
-  }
-
-  .subtitle {
-    color: #666;
-    margin: 0.25rem 0 0.5rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    p {
-      margin: 0;
-    }
-  }
-
-  .nano-subtitle {
-    margin: 0.1rem 0 0.2rem 0;
-    gap: 0.1rem;
-  }
-
   .description {
     margin: 0.25rem 0;
-    font-size: 0.9rem;
 
     p {
       margin: 0.25rem 0;
@@ -86,22 +65,6 @@
     > p {
       margin: 0.1rem;
     }
-  }
-
-  .mid-font {
-    font-size: 0.8rem;
-  }
-
-  .mini-font {
-    font-size: 0.7rem;
-  }
-
-  .micro-font {
-    font-size: 0.65rem;
-  }
-
-  .nano-font {
-    font-size: 0.5rem;
   }
 
   .backdrop {

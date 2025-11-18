@@ -19,10 +19,6 @@
 </div>
 
 <style>
-  .fancy-font {
-    font-family: "Sedan SC", sans-serif;
-  }
-
   .nano-container {
     margin: 0rem;
     margin-right: -0.2rem;

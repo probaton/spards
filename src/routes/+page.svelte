@@ -35,6 +35,26 @@
 </div>
 
 <style>
+  :global(.fancy-font) {
+    font-family: 'Sedan SC', sans-serif;
+  }
+
+  :global(.mid-font) {
+    font-size: 0.8rem;
+  }
+
+  :global(.mini-font) {
+    font-size: 0.7rem;
+  }
+
+  :global(.micro-font) {
+    font-size: 0.65rem;
+  }
+
+  :global(.nano-font) {
+    font-size: 0.5rem;
+  }
+
   .page-container {
     font-size: 0;
   }

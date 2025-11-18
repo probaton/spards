@@ -2,6 +2,7 @@
   import type { MonsterDetails } from '../util/fetchMonsterDetails';
   import { formatParagraph } from '../util/formatting';
   import Orbs from './Orbs.svelte';
+  import SubTitle from './SubTitle.svelte';
 
   interface MonsterCardContentProps {
     monster: MonsterDetails;
@@ -55,10 +56,10 @@
 
 <span class="backdrop fancy-font">{challenge_rating}</span>
 
-<div class="subtitle micro-font">
+<SubTitle size="mid">
   <p>{size} {type} - {armorClassText} - {hit_points}/{hit_dice} - {speedText}</p>
   <p>{sensesText}</p>
-</div>
+</SubTitle>
 <div class="orb-container"><Orbs orbs={statOrbs} /></div>
 <div class="description">
   {#each paragraphs as paragraph}<p>{@html paragraph}</p>{/each}
@@ -70,10 +71,6 @@
 <div class="alignment-orb-container"><Orbs orbs={alignmentOrbs} /></div>
 
 <style>
-  .fancy-font {
-    font-family: 'Sedan SC', sans-serif;
-  }
-
   .orb-container {
     position: absolute;
     right: 0.2rem;
@@ -95,29 +92,12 @@
     justify-content: right;
   }
 
-  .subtitle {
-    color: #666;
-    margin: 0.25rem 0 0.5rem 0;
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    p {
-      margin: 0;
-    }
-  }
-
   .description {
     margin: 0.25rem 0;
-    font-size: 0.9rem;
 
     p {
       margin: 0.25rem 0;
     }
-  }
-
-  .micro-font {
-    font-size: 0.65rem;
   }
 
   .alignment-orb-container {
