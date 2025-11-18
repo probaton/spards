@@ -1,4 +1,4 @@
-import type { SpellDetails } from "../../util/fetchSpellDetails";
+import type { SpellDetails } from "../util/fetchSpellDetails";
 
 export type SizeClass = 'nano' | 'micro' | 'mini' | 'mid';
 
@@ -23,16 +23,4 @@ export function getSpellSizeClass({ desc, higher_level, casting_time, material }
   if (totalLength > 950) return 'micro';
   if (totalLength > 550) return 'mini';
   return 'mid';
-}
-
-export function formatParagraph(text: string, title?: string): string {
-  const content = text
-    .replace(
-      /([Ss]trength|[Dd]exterity|[Cc]onstitution|[Ii]ntelligence|[Ww]isdom|[Cc]harisma|\d+d\d+( ?\+ ?\d+)?)/g,
-      '<strong>$1</strong>'
-    ).replace(
-      /\*\*\*(.*)\*\*\*/g,
-      '<strong>$1</strong>'
-    );
-  return title ? `<strong>${title}</strong>: ${content}` : content;
 }

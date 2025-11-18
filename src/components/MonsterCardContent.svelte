@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { MonsterDetails } from '../../util/fetchMonsterDetails';
-  import { formatParagraph } from './Card';
+  import type { MonsterDetails } from '../util/fetchMonsterDetails';
+  import { formatParagraph } from '../util/formatting';
   import Orbs from './Orbs.svelte';
 
   interface MonsterCardContentProps {

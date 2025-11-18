@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { SpellDetails } from '../../util/fetchSpellDetails';
-  import { formatParagraph, type SizeClass } from './Card';
+  import type { SpellDetails } from '../util/fetchSpellDetails';
+  import type { SizeClass } from '../util/getSizeClass';
+  import { formatParagraph } from '../util/formatting';
   import Orbs from './Orbs.svelte';
 
   interface SpellCardContentProps {

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import Card from "../components/Card/Card.svelte";
-  import SpellCardContent from "../components/Card/SpellCardContent.svelte";
-  import MonsterCardContent from "../components/Card/MonsterCardContent.svelte";
+  import Card from "../components/Card.svelte";
+  import SpellCardContent from "../components/SpellCardContent.svelte";
+  import MonsterCardContent from "../components/MonsterCardContent.svelte";
   import type { PageData } from './$types';
-  import { getSizeClass, getSpellSizeClass } from "../components/Card/Card";
-  import ItemCardContent from "../components/Card/ItemCardContent.svelte";
+  import { getSizeClass, getSpellSizeClass } from "../util/getSizeClass";
+  import ItemCardContent from "../components/ItemCardContent.svelte";
 
   let { data }: { data: PageData } = $props();
 

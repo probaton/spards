@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Snippet } from 'svelte';
-  import type { SizeClass } from './Card';
+  import type { Snippet } from "svelte";
+  import type { SizeClass } from "../util/getSizeClass";
 
   interface CardProps {
     children: Snippet;
@@ -20,7 +20,7 @@
 
 <style>
   .fancy-font {
-    font-family: 'Sedan SC', sans-serif;
+    font-family: "Sedan SC", sans-serif;
   }
 
   .nano-container {

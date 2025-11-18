@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { ItemDetails } from '../../util/fetchItemDetails';
-  import { formatParagraph, type SizeClass } from './Card';
+  import type { ItemDetails } from '../util/fetchItemDetails';
+  import type { SizeClass } from '../util/getSizeClass';
+  import { formatParagraph } from '../util/formatting';
   import Orbs from './Orbs.svelte';
 
   interface ItemCardContentProps {
